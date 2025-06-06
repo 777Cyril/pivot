@@ -1,7 +1,10 @@
 module.exports = {
   preset: 'jest-expo',
   transformIgnorePatterns: [
-    'node_modules/(?!(jest-expo|((jest-)?react-native|@react-native(-community)?)/|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@sentry/react-native|native-base|react-native-svg))',
-    'node_modules/react-native-reanimated/plugin',
+    'node_modules/(?!(jest-expo|expo-modules-core|@expo|expo|@react-native|react-native|@react-navigation|react-navigation|react-native-reanimated)/)',
+  ],
+  setupFiles: [
+    '<rootDir>/node_modules/react-native-gesture-handler/jestSetup.js',
+    '<rootDir>/node_modules/@react-native-async-storage/async-storage/jest/async-storage-mock',
   ],
 };
