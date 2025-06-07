@@ -69,8 +69,8 @@ export class ApplicationService {
   async saveRejectedJob(job: Job): Promise<void> {
     try {
       const data = await AsyncStorage.getItem(REJECTED_JOBS_KEY);
-      const rejected = data ? JSON.parse(data) : [];
-      const updated = [job, ...rejected.filter(j => j.id !== job.id)];
+      const rejected: Job[] = data ? JSON.parse(data) : [];
+      const updated = [job, ...rejected.filter((j: Job) => j.id !== job.id)];
       await AsyncStorage.setItem(REJECTED_JOBS_KEY, JSON.stringify(updated));
     } catch (error) {
       console.error('Error saving rejected job:', error);
