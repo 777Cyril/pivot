@@ -6,7 +6,7 @@ export interface Job {
   salary?: string;
   description: string;
   requirements: string[];
-  postedDate: string;
+  postedDate: Date;
   applicationUrl: string;
   logoUrl?: string;
   isRemote: boolean;

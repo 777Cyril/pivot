@@ -109,10 +109,10 @@ export class JobService {
       const daysAgo = Math.floor(Math.random() * 30);
       const postedDate = new Date(now);
       postedDate.setDate(postedDate.getDate() - daysAgo);
-      
+
       return {
         ...job,
-        postedDate: postedDate.toISOString(),
+        postedDate,
       };
     });
   }
@@ -134,8 +134,8 @@ export class JobService {
 
   sortJobsByDate(jobs: Job[]): Job[] {
     return [...jobs].sort((a, b) => {
-      const dateA = new Date(a.postedDate).getTime();
-      const dateB = new Date(b.postedDate).getTime();
+      const dateA = a.postedDate.getTime();
+      const dateB = b.postedDate.getTime();
       return dateB - dateA; // Newest first
     });
   }

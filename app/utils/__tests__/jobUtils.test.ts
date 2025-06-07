@@ -31,7 +31,7 @@ describe('jobUtils', () => {
   describe('isJobNew', () => {
     it('should return true for jobs posted within 7 days', () => {
       const recentJob = createMockJob({
-        postedDate: new Date().toISOString()
+        postedDate: new Date()
       });
       
       expect(isJobNew(recentJob)).toBe(true);
@@ -42,7 +42,7 @@ describe('jobUtils', () => {
       oldDate.setDate(oldDate.getDate() - 10);
       
       const oldJob = createMockJob({
-        postedDate: oldDate.toISOString()
+        postedDate: oldDate
       });
       
       expect(isJobNew(oldJob)).toBe(false);
