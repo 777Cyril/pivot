@@ -86,6 +86,14 @@ export class ApplicationService {
       return [];
     }
   }
+
+  async clearAllApplications(): Promise<void> {
+    try {
+      await AsyncStorage.removeItem(APPLICATIONS_KEY);
+    } catch (error) {
+      console.error('Error clearing applications:', error);
+    }
+  }
 }
 
 export const applicationService = new ApplicationService();
