@@ -1,9 +1,11 @@
 import { Job } from './Job';
 
+export type ApplicationStatus = 'pending' | 'completed' | 'needs_attention';
+
 export interface Application {
   id: string;
   job: Job;
-  status: 'pending' | 'completed' | 'needs_attention';
+  status: ApplicationStatus;
   appliedAt: Date;
   notes?: string;
   resumeVersion?: string;
