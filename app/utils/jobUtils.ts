@@ -8,7 +8,7 @@ export function createMockJob(overrides?: Partial<Job>): Job {
     location: 'New York, NY',
     description: 'We are looking for a talented developer...',
     requirements: ['React Native', 'TypeScript', 'Jest'],
-    postedDate: new Date().toISOString(),
+    postedDate: new Date(),
     applicationUrl: 'https://example.com/apply',
     isRemote: false,
     employmentType: 'full-time',
@@ -18,7 +18,7 @@ export function createMockJob(overrides?: Partial<Job>): Job {
 }
 
 export function isJobNew(job: Job, daysThreshold: number = 7): boolean {
-  const postedDate = new Date(job.postedDate);
+  const postedDate = job.postedDate;
   const now = new Date();
   const daysDifference =
     (now.getTime() - postedDate.getTime()) / (1000 * 3600 * 24);

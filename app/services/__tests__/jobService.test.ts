@@ -88,9 +88,9 @@ describe('JobService', () => {
   describe('sortJobsByDate', () => {
     it('should sort jobs from newest to oldest', () => {
       const jobs: Job[] = [
-        { postedDate: '2024-01-01', id: '1' } as Job,
-        { postedDate: '2024-03-01', id: '2' } as Job,
-        { postedDate: '2024-02-01', id: '3' } as Job,
+        { postedDate: new Date('2024-01-01'), id: '1' } as Job,
+        { postedDate: new Date('2024-03-01'), id: '2' } as Job,
+        { postedDate: new Date('2024-02-01'), id: '3' } as Job,
       ];
       
       const sorted = jobService.sortJobsByDate(jobs);
