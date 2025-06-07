@@ -8,14 +8,19 @@ import {
   ActivityIndicator,
   RefreshControl,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, NavigationProp } from '@react-navigation/native';
+import { Job } from '../types/Job';
 import { applicationService } from '../services/applicationService';
 import { Application, ApplicationStatus } from '../types/Application';
 
 type FilterType = 'all' | ApplicationStatus;
 
+type RootStackParamList = {
+  JobDetails: { job: Job };
+};
+
 export const ApplicationsScreen = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const [applications, setApplications] = useState<Application[]>([]);
   const [stats, setStats] = useState({
     total: 0,
