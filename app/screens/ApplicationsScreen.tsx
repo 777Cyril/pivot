@@ -173,7 +173,7 @@ export const ApplicationsScreen = () => {
             key={application.id}
             style={styles.applicationCard}
             testID={`application-${application.id}`}
-            onPress={() => navigation.navigate('JobDetails' as never, { job: application.job } as never)}
+            onPress={() => navigation.navigate('JobDetails', { job: application.job })}
           >
             <View style={styles.applicationHeader}>
               <View style={styles.applicationInfo}>
