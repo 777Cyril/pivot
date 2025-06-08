@@ -1,4 +1,4 @@
-import { Job } from './Job';
+import { Job } from '@/types';
 
 export type ApplicationStatus = 'pending' | 'completed' | 'needs_attention';
 

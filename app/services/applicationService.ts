@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Job } from '../types/Job';
+import { Job } from '@/types';
 import { Application } from '../types/Application';
 
 const APPLICATIONS_KEY = 'applications';

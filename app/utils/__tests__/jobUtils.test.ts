@@ -12,7 +12,7 @@ describe('jobUtils', () => {
       expect(mockJob).toHaveProperty('description');
       expect(mockJob.requirements).toBeInstanceOf(Array);
       expect(mockJob.isRemote).toBe(false);
-      expect(mockJob.employmentType).toBe('full-time');
+      expect(mockJob.employmentType).toBe('Full-time');
     });
 
     it('should override default values with provided partial job data', () => {

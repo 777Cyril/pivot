@@ -47,7 +47,7 @@ describe('JobCard', () => {
   });
 
   it('should display employment type', () => {
-    const job = createMockJob({ employmentType: 'contract' });
+    const job = createMockJob({ employmentType: 'Contract' });
     const { getByText } = render(<JobCard job={job} />);
 
     expect(getByText('Contract')).toBeTruthy();

@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import JobCardStack from '../components/JobCardStack';
 import TemperatureSlider from '@/components/TemperatureSlider';
-import { Job } from '../types/Job';
+import { Job } from '@/types';
 import { jobService } from '../services/jobService';
 import { applicationService } from '../services/applicationService';
 import { filterJobsByTemperature, addSimilarityScores } from '../../services/temperatureMatching';

@@ -6,7 +6,7 @@ import {
   ActivityIndicator,
   Dimensions,
 } from 'react-native';
-import { Job } from '../types/Job';
+import { Job } from '@/types';
 import { JobCard } from './JobCard';
 import { SwipeableCard } from './SwipeableCard';
 
