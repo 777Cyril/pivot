@@ -139,6 +139,11 @@ export class JobService {
       return dateB - dateA; // Newest first
     });
   }
+
+  async rejectJob(id: string): Promise<void> {
+    // In a real app, this would notify the backend
+    this.mockJobs = this.mockJobs.filter(job => job.id !== id);
+  }
 }
 
 // Export singleton instance

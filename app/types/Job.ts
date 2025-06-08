@@ -15,4 +15,5 @@ export interface Job {
   // For future auto-apply features
   platform?: 'greenhouse' | 'lever' | 'ashby' | 'linkedin' | 'indeed' | 'other';
   canAutoApply?: boolean;
+  similarity?: number;
 }
