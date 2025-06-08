@@ -15,7 +15,7 @@ jest.mock('../../services/applicationService', () => ({
 let jobCardStackProps: any;
 jest.mock('../../components/JobCardStack', () => ({
   __esModule: true,
-  default: (props: any) => {
+  JobCardStack: (props: any) => {
     jobCardStackProps = props;
     const View = require('react-native').View;
     const Text = require('react-native').Text;

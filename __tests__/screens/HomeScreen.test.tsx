@@ -15,7 +15,7 @@ jest.mock('../../app/components/JobCardStack', () => {
   const Text = require('react-native').Text;
   return {
     __esModule: true,
-    default: ({ jobs }: any) => (
+    JobCardStack: ({ jobs }: any) => (
       <View testID="job-card-stack">
         <Text>{jobs[0]?.title}</Text>
       </View>
