@@ -1,111 +1,80 @@
-# AGENTS.md - Pivot Job Search App
+# AGENTS.md - Pivot Career Transition Platform
 
 ## Project Overview
-Pivot is a mobile-first job search application with a Tinder-style swipe interface for applying to jobs. Users can swipe right to apply, left to pass, and view detailed job information.
+Pivot is a mobile-first career transition platform that helps professionals intelligently navigate career changes. Using AI-powered skill analysis and vector-based job matching, Pivot identifies transferable skills and suggests career paths that align with users' desired level of change—from adjacent roles to complete reinventions.
+
+**Core Value Proposition**: Help a media professional transition to tech, a developer become a product manager, or a consultant pivot to entrepreneurship by understanding their transferable skills and matching them with opportunities.
 
 ## Core Features
-1. **Swipe Interface**: Tinder-style card stack for job listings
-   - Swipe right: Express interest/apply
-   - Swipe left: Pass on opportunity
-   - Tap card: View full job details
-   
-2. **Job Cards Display**:
-   - Company name and logo
-   - Job title
-   - Location (city, state, country)
-   - Work arrangement (In Person, Remote, Hybrid)
-   - Employment type (Full Time, Part Time, Contract)
-   - Salary range
-   - Experience level (Entry, Mid, Senior)
-   - Education requirements
-   - Brief job description preview
-   - "APPLY" indicator for swipe right
-   - "PASS" indicator for swipe left
 
-3. **Navigation**:
-   - Bottom tab navigation with icons
-   - Feed (main swipe view)
-   - Applications (saved/applied jobs)
-   - Feedback
-   - Profile
+### 1. **Intelligent Onboarding**
+- Resume upload and parsing
+- AI-powered skill extraction and vectorization
+- Career history analysis
+- Transferable skills identification
+- Initial career path suggestions
 
-## Technical Stack
+### 2. **Temperature-Controlled Discovery**
+- **Temperature Slider**: Control how different suggested roles should be
+  - 0.0-0.2: Safe steps (similar roles)
+  - 0.2-0.4: Stretch opportunities
+  - 0.4-0.6: True pivots
+  - 0.6-0.8: Bold moves
+  - 0.8-1.0: Complete reinvention
+- Visual feedback showing example transitions at each level
+
+### 3. **Smart Swipe Interface**
+- **Swipe right**: Apply immediately (triggers real application)
+- **Swipe left**: Not interested
+- **Tap card**: View full details and career path alignment
+- Vector-based job recommendations (not random)
+- Shows skill overlap percentage
+- Highlights transferable skills
+
+### 4. **Career Path Visualization**
+- Show potential career trajectories
+- Skill gap analysis
+- Recommended learning paths
+- Success stories from similar transitions
+
+### 5. **Application Automation**
+- Direct application submission
+- Auto-fill from parsed resume data
+- Track application status
+- Monitor for email confirmations
+
+## Technical Architecture
+
+### Core Technologies
 - **Framework**: React Native with Expo SDK (latest)
-- **Language**: TypeScript
-- **State Management**: React Context API (initially), upgrade to Redux Toolkit if needed
+- **Language**: TypeScript (strict mode)
+- **State Management**: Redux Toolkit (for complex state)
 - **Navigation**: React Navigation v6
 - **Styling**: StyleSheet API with consistent design tokens
 - **Testing**: Jest + React Native Testing Library
-- **Gesture Handling**: react-native-gesture-handler + react-native-reanimated
-- **Data**: Mock data initially, prepared for API integration
 
-## Development Principles
-1. **Test-Driven Development (TDD)**:
-   - Write tests before implementation
-   - Unit test every component and function
-   - Integration tests for user flows
-   - Minimum 80% code coverage
+### AI/ML Stack
+- **Vector Operations**: Custom similarity algorithms
+- **NLP**: Resume parsing (OpenAI/Anthropic API)
+- **Embeddings**: Skill vectorization
+- **Storage**: Vector database (future: Pinecone/Weaviate)
 
-2. **Atomic Development**:
-   - Small, focused commits
-   - One feature per branch
-   - Descriptive commit messages
-
-3. **Code Quality**:
-   - TypeScript strict mode
-   - ESLint + Prettier configuration
-   - Consistent naming conventions
-   - Comments for complex logic
-
-## File Structure
-pivot/
-├── src/
-│   ├── components/
-│   │   ├── JobCard/
-│   │   ├── SwipeableStack/
-│   │   └── common/
-│   ├── screens/
-│   │   ├── FeedScreen/
-│   │   ├── ApplicationsScreen/
-│   │   ├── FeedbackScreen/
-│   │   └── ProfileScreen/
-│   ├── navigation/
-│   ├── services/
-│   ├── utils/
-│   ├── types/
-│   └── constants/
-├── assets/
-├── tests/
-└── App.tsx
-
-## Component Specifications
-
-### JobCard Component
-- Display all job information in a card format
-- Smooth animations for swipe indicators
-- Responsive to different screen sizes
-- Accessibility labels for screen readers
-
-### SwipeableStack Component
-- Manages stack of job cards
-- Handles swipe gestures and animations
-- Preloads next cards for performance
-- Undo functionality (stretch goal)
-
-### Navigation
-- Tab bar with custom icons
-- Smooth transitions between screens
-- Deep linking support (future)
+### External Integrations
+- **Job APIs**: Indeed, LinkedIn, Glassdoor
+- **Application Systems**: Greenhouse, Lever, Workday
+- **Email Monitoring**: Gmail API for confirmations
+- **Resume Parsing**: OpenAI/Anthropic
 
 ## Data Models
 
-### Job Interface
+### Enhanced Job Interface
 ```typescript
 interface Job {
   id: string;
   company: {
     name: string;
     logo?: string;
+    culture?: string[];
   };
   title: string;
   location: {
@@ -121,50 +90,162 @@ interface Job {
     currency: string;
   };
   experienceLevel: 'Entry Level' | 'Mid Level' | 'Senior Level' | 'Executive';
-  education: string;
   description: string;
   requirements: string[];
-  benefits?: string[];
-  postedDate: Date;
+  
+  // New fields for career transition
+  skillVector: SkillVector;
+  industryTags: string[];
+  careerPathAlignment: number; // 0-1 score
+  transferableSkills: string[];
+  skillGaps: string[];
 }
 ```
 
-Testing Strategy
+### User Profile with Vectors
+```typescript
+interface UserProfile {
+  id: string;
+  personalInfo: {
+    name: string;
+    email: string;
+    location: string;
+  };
+  
+  // Career transition data
+  currentRole: string;
+  targetRoles: string[];
+  yearsExperience: number;
+  skillVector: SkillVector;
+  temperature: number; // 0-1, how different they want to go
+  
+  // Parsed from resume
+  workHistory: WorkExperience[];
+  education: Education[];
+  skills: string[];
+  achievements: string[];
+}
 
-Unit Tests: Every component, utility function, and service
-Integration Tests: User flows (swipe, apply, navigate)
-Snapshot Tests: UI consistency
-E2E Tests: Critical paths (future with Detox)
+interface SkillVector {
+  // Technical dimensions
+  programming: number;
+  dataAnalysis: number;
+  cloudComputing: number;
+  machineLearning: number;
+  webDevelopment: number;
+  mobileDevelopment: number;
+  
+  // Soft skills dimensions
+  leadership: number;
+  communication: number;
+  projectManagement: number;
+  sales: number;
+  marketing: number;
+  design: number;
+  writing: number;
+  
+  // Industry dimensions
+  finance: number;
+  healthcare: number;
+  retail: number;
+  education: number;
+  startup: number;
+  enterprise: number;
+  // ... more dimensions
+}
+```
 
-Performance Goals
+## Core Algorithms
 
-App launch: < 2 seconds
-Swipe response: < 16ms (60 FPS)
-Card preloading: Next 3 cards
-Memory usage: < 200MB
+### Vector-Based Matching
+1. Convert user profile to multi-dimensional skill vector
+2. Convert each job to comparable skill vector
+3. Calculate cosine similarity with temperature adjustment
+4. Filter and rank based on:
+   - Skill overlap (with temperature consideration)
+   - Experience level compatibility
+   - Industry transferability
+   - Growth potential
 
-Accessibility Requirements
+### Temperature Algorithm
+```typescript
+function getMatchScore(userVector: SkillVector, jobVector: SkillVector, temperature: number): number {
+  const similarity = cosineSimilarity(userVector, jobVector);
+  
+  // Temperature adjusts the "sweet spot"
+  // Low temp: prefer high similarity (0.8-1.0)
+  // High temp: prefer moderate similarity (0.3-0.6)
+  const targetSimilarity = 0.9 - (temperature * 0.5);
+  const variance = 0.1 + (temperature * 0.2);
+  
+  // Score based on distance from target
+  const distance = Math.abs(similarity - targetSimilarity);
+  return Math.max(0, 1 - (distance / variance));
+}
+```
 
-VoiceOver/TalkBack support
-Minimum contrast ratios (WCAG AA)
-Gesture alternatives for all actions
-Clear focus indicators
+## Development Principles
 
-Future Enhancements
+### 1. **AI-First Development**
+- Every feature should leverage AI for personalization
+- Continuous learning from user interactions
+- Feedback loops to improve recommendations
 
-User authentication
-Real job API integration
-Application tracking
-Push notifications
-Saved searches and filters
-Company research integration
-Resume upload and management
+### 2. **Privacy & Trust**
+- Transparent about data usage
+- Secure resume storage
+- Clear consent for application submissions
 
-Deployment Targets
+### 3. **Real-World Impact**
+- Track actual job placements
+- Measure career transition success
+- Build case studies
 
-iOS: 13.0+
-Android: API 21+ (Android 5.0)
-Initial release: TestFlight (iOS) and Internal Testing (Android)
-Production: Apple App Store and Google Play Store
+## MVP Success Metrics
+1. **User uploads resume** → Skills extracted successfully
+2. **Temperature adjustment** → Jobs change meaningfully
+3. **Swipe right** → Real application submitted
+4. **Email confirmation** received within 1 hour
+5. **Career path** shown makes sense to user
 
-This file will serve as the single source of truth for all development decisions and requirements throughout the project.
+## Testing Strategy
+- **Unit Tests**: Vector calculations, matching algorithms
+- **Integration Tests**: Resume parsing → job matching flow
+- **ML Tests**: Validate skill extraction accuracy
+- **User Tests**: Career transition recommendations make sense
+
+## Performance Requirements
+- Resume parsing: < 5 seconds
+- Job vector calculation: < 100ms per job
+- Recommendation generation: < 2 seconds
+- Swipe response: < 16ms (60 FPS)
+
+## Phase 1 Deliverables (MVP)
+1. Resume upload and basic parsing
+2. Skill vector generation (simplified)
+3. Temperature-controlled job matching
+4. Mock application submission
+5. Basic career path suggestions
+
+## Phase 2 Enhancements
+1. Real job API integration
+2. Automated application submission
+3. Email confirmation tracking
+4. ML model for better skill extraction
+5. Success story collection
+
+## Phase 3 Scale
+1. Company partnerships
+2. Direct ATS integration
+3. Career coaching features
+4. Skill gap training recommendations
+5. Transition success prediction
+
+## Competitive Advantages
+1. **Not keyword matching**: Understanding transferable skills
+2. **User-controlled discovery**: Temperature setting
+3. **Real applications**: Not just bookmarking
+4. **Career intelligence**: Showing viable paths
+5. **Transition focus**: Built for career change, not job search
+
+This platform isn't about finding the same job at a different company—it's about discovering what's possible when you're ready to pivot.
