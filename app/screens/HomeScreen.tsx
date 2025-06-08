@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, ActivityIndicator, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import JobCardStack from '../components/JobCardStack';
+import { JobCardStack } from '../components/JobCardStack';
 import TemperatureSlider from '@/components/TemperatureSlider';
 import { Job } from '@/types';
 import { jobService } from '../services/jobService';
