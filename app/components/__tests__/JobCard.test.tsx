@@ -1,7 +1,7 @@
-import React from 'react';
 import { render } from '@testing-library/react-native';
-import { JobCard } from '../JobCard';
+import React from 'react';
 import { createMockJob } from '../../utils/jobUtils';
+import { JobCard } from '../JobCard';
 
 describe('JobCard', () => {
   it('should render job title', () => {
