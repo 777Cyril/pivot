@@ -2,13 +2,23 @@ import React from 'react';
 import { render, waitFor, fireEvent } from '@testing-library/react-native';
 import { HomeScreen } from '../HomeScreen';
 import { jobService } from '../../services/jobService';
+import { applicationService } from '../../services/applicationService';
+
+let jobCardStackProps: any;
 
 // Mock the job service
 jest.mock('../../services/jobService');
+jest.mock('../../services/applicationService', () => ({
+  applicationService: {
+    createApplication: jest.fn(),
+  },
+}));
 
 // Mock the components to simplify testing
 jest.mock('../../components/JobCardStack', () => ({
-  JobCardStack: ({ jobs, onSwipeLeft, onSwipeRight, isLoading }: any) => {
+  JobCardStack: (props: any) => {
+    jobCardStackProps = props;
+    const { jobs, isLoading } = props;
     const MockComponent = require('react-native').View;
     const MockText = require('react-native').Text;
     
@@ -69,7 +79,7 @@ describe('HomeScreen', () => {
     
     const { getByText } = render(<HomeScreen />);
     
-    expect(getByText(/Swipe right to save/i)).toBeTruthy();
+    expect(getByText(/Swipe right to apply/i)).toBeTruthy();
     expect(getByText(/Swipe left to pass/i)).toBeTruthy();
   });
 
@@ -101,12 +111,28 @@ describe('HomeScreen', () => {
     });
   });
 
-  it('should track saved and rejected jobs count', () => {
+  it('should track applied and rejected jobs count', () => {
     (jobService.fetchJobs as jest.Mock).mockResolvedValue([]);
-    
+
     const { getByText } = render(<HomeScreen />);
-    
-    expect(getByText(/Saved: 0/)).toBeTruthy();
+
+    expect(getByText(/Applied: 0/)).toBeTruthy();
     expect(getByText(/Passed: 0/)).toBeTruthy();
+  });
+
+  it('should create an application when swiped right', async () => {
+    const mockJobs = [{ id: '1', title: 'Job 1' }];
+    (jobService.fetchJobs as jest.Mock).mockResolvedValue(mockJobs);
+
+    const { getByTestId } = render(<HomeScreen />);
+
+    await waitFor(() => {
+      expect(getByTestId('job-card-stack')).toBeTruthy();
+    });
+
+    // Trigger the onSwipeRight callback from the mocked component
+    await jobCardStackProps.onSwipeRight(mockJobs[0]);
+
+    expect(applicationService.createApplication).toHaveBeenCalledWith(mockJobs[0]);
   });
 });

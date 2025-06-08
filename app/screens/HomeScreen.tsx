@@ -9,12 +9,14 @@ import {
 import { JobCardStack } from '../components/JobCardStack';
 import { Job } from '../types/Job';
 import { jobService } from '../services/jobService';
+import { applicationService } from '../services/applicationService';
+import { ApplicationStatus } from '../types/Application';
 
 export const HomeScreen: React.FC = () => {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const [savedCount, setSavedCount] = useState(0);
+  const [appliedCount, setAppliedCount] = useState(0);
   const [rejectedCount, setRejectedCount] = useState(0);
 
   const loadJobs = useCallback(async () => {
@@ -44,9 +46,14 @@ export const HomeScreen: React.FC = () => {
     setRejectedCount(prev => prev + 1);
   }, []);
 
-  const handleSwipeRight = useCallback((job: Job) => {
-    console.log('Saved job:', job.title);
-    setSavedCount(prev => prev + 1);
+  const handleSwipeRight = useCallback(async (job: Job) => {
+    try {
+      await applicationService.createApplication(job);
+      console.log('Application created for:', job.title);
+      setAppliedCount(prev => prev + 1);
+    } catch (error) {
+      console.error('Error creating application:', error);
+    }
   }, []);
 
   return (
@@ -64,7 +71,7 @@ export const HomeScreen: React.FC = () => {
 
       <View style={styles.statsContainer}>
         <View style={styles.statItem}>
-          <Text style={styles.statLabel}>Saved: {savedCount}</Text>
+          <Text style={styles.statLabel}>Applied: {appliedCount}</Text>
         </View>
         <View style={styles.statItem}>
           <Text style={styles.statLabel}>Passed: {rejectedCount}</Text>
@@ -73,7 +80,7 @@ export const HomeScreen: React.FC = () => {
 
       <View style={styles.instructions}>
         <Text style={styles.instructionText}>← Swipe left to pass</Text>
-        <Text style={styles.instructionText}>Swipe right to save →</Text>
+        <Text style={styles.instructionText}>Swipe right to apply →</Text>
       </View>
 
       <View style={styles.cardContainer}>
