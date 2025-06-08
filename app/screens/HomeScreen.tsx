@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, ActivityIndicator, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
@@ -7,7 +7,6 @@ import TemperatureSlider from '@/components/TemperatureSlider';
 import { Job } from '@/types';
 import { jobService } from '../services/jobService';
 import { applicationService } from '../services/applicationService';
-import { filterJobsByTemperature, addSimilarityScores } from '../../services/temperatureMatching';
 
 export const HomeScreen: React.FC = () => {
   const [allJobs, setAllJobs] = useState<Job[]>([]);
@@ -17,25 +16,20 @@ export const HomeScreen: React.FC = () => {
   const [passedCount, setPassedCount] = useState(0);
 
   useEffect(() => {
-    loadJobs();
-  }, []);
+    loadJobs(temperature);
+  }, [temperature]);
 
-  const loadJobs = async () => {
+  const loadJobs = async (temp: number) => {
     setLoading(true);
     try {
-      const fetchedJobs = await jobService.fetchJobs();
-      const jobsWithScores = addSimilarityScores(fetchedJobs);
-      setAllJobs(jobsWithScores);
+      const fetchedJobs = await jobService.fetchJobs(temp);
+      setAllJobs(fetchedJobs);
     } catch (error) {
       console.error('Error loading jobs:', error);
     } finally {
       setLoading(false);
     }
   };
-
-  const filteredJobs = useMemo(() => {
-    return filterJobsByTemperature(allJobs, temperature);
-  }, [allJobs, temperature]);
 
   const handleSwipeRight = async (job: Job) => {
     try {
@@ -76,7 +70,7 @@ export const HomeScreen: React.FC = () => {
       <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
         <View style={styles.header}>
           <Text style={styles.title}>Pivot</Text>
-          <TouchableOpacity onPress={loadJobs} style={styles.refreshButton} testID="refresh-button">
+          <TouchableOpacity onPress={() => loadJobs(temperature)} style={styles.refreshButton} testID="refresh-button">
             <Ionicons name="refresh" size={24} color="#007AFF" />
           </TouchableOpacity>
         </View>
@@ -94,7 +88,7 @@ export const HomeScreen: React.FC = () => {
           <View style={styles.statDivider} />
           <View style={styles.stat}>
             <Text style={styles.statLabel}>Jobs Available:</Text>
-            <Text style={styles.statValue}>{filteredJobs.length}</Text>
+            <Text style={styles.statValue}>{allJobs.length}</Text>
           </View>
           <View style={styles.statDivider} />
           <View style={styles.stat}>
@@ -110,7 +104,7 @@ export const HomeScreen: React.FC = () => {
 
         <View style={styles.stackContainer}>
           <JobCardStack
-            jobs={filteredJobs}
+            jobs={allJobs}
             onSwipeRight={handleSwipeRight}
             onSwipeLeft={handleSwipeLeft}
           />

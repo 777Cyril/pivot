@@ -103,6 +103,11 @@ export function extractSkillsFromText(text: string): string[] {
     });
   });
 
+  // Map common phrases to standard keywords
+  if (/google\s+cloud\s+platform/.test(lowerText)) {
+    foundSkills.add('gcp');
+  }
+
   // Extract soft skills based on context
   if (/\b(led|managed|supervised)\b/i.test(lowerText)) {
     foundSkills.add('leadership');
@@ -135,28 +140,31 @@ export function textToVector(text: string): SkillVector {
   });
 
   // Programming skills
-  const programmingSkills = skills.filter(s => 
-    SkillKeywords.programming.includes(s)
+  const programmingCount = SkillKeywords.programming.reduce(
+    (sum, key) => sum + (skillCounts[key] || 0),
+    0
   );
-  if (programmingSkills.length > 0) {
-    vector.programming = Math.min(0.9, 0.3 + programmingSkills.length * 0.15);
+  if (programmingCount > 0) {
+    vector.programming = Math.min(0.9, 0.4 + programmingCount * 0.15);
   }
 
   // Web development
-  const webSkills = skills.filter(s => 
-    SkillKeywords.webDevelopment.includes(s)
+  const webCount = SkillKeywords.webDevelopment.reduce(
+    (sum, key) => sum + (skillCounts[key] || 0),
+    0
   );
-  if (webSkills.length > 0) {
-    vector.webDevelopment = Math.min(0.9, 0.3 + webSkills.length * 0.15);
+  if (webCount > 0) {
+    vector.webDevelopment = Math.min(0.9, 0.4 + webCount * 0.15);
   }
 
   // Cloud/DevOps
-  const cloudSkills = skills.filter(s => 
-    SkillKeywords.cloud.includes(s)
+  const cloudCount = SkillKeywords.cloud.reduce(
+    (sum, key) => sum + (skillCounts[key] || 0),
+    0
   );
-  if (cloudSkills.length > 0) {
-    vector.cloudComputing = Math.min(0.8, 0.3 + cloudSkills.length * 0.1);
-    vector.devOps = Math.min(0.7, 0.2 + cloudSkills.length * 0.1);
+  if (cloudCount > 0) {
+    vector.cloudComputing = Math.min(0.8, 0.3 + cloudCount * 0.1);
+    vector.devOps = Math.min(0.7, 0.2 + cloudCount * 0.1);
   }
 
   // Data/ML
@@ -173,9 +181,11 @@ export function textToVector(text: string): SkillVector {
   // Leadership
   const leadershipKeywords = SkillKeywords.leadership;
   const leadershipScore = leadershipKeywords.reduce((score, keyword) => {
-    return lowerText.includes(keyword) ? score + 0.15 : score;
+    return lowerText.includes(keyword) ? score + 0.3 : score;
   }, 0);
-  vector.leadership = Math.min(0.9, leadershipScore);
+  if (leadershipScore > 0) {
+    vector.leadership = Math.min(0.9, 0.2 + leadershipScore);
+  }
 
   // Communication
   if (skills.includes('communication') || /communicat/i.test(text)) {
@@ -217,8 +227,8 @@ export function textToVector(text: string): SkillVector {
 export function extractYearsOfExperience(text: string): number {
   // Match patterns like "5 years", "3-5 years", "10+ years"
   const yearPatterns = [
-    /(\d+)\+?\s*years?/i,
     /(\d+)-(\d+)\s*years?/i,
+    /(\d+)\+?\s*years?/i,
     /over\s+(\d+)\s*years?/i,
   ];
 
@@ -261,8 +271,8 @@ export function identifyCurrentRole(text: string): string {
     { pattern: /javascript\s+developer/i, role: 'JavaScript Developer' },
     { pattern: /engineering\s+manager/i, role: 'Engineering Manager' },
     { pattern: /product\s+manager/i, role: 'Product Manager' },
-    { pattern: /ux\s+designer/i, role: 'UX Designer' },
     { pattern: /ui\/ux\s+designer/i, role: 'UI/UX Designer' },
+    { pattern: /ux\s+designer/i, role: 'UX Designer' },
     { pattern: /data\s+scientist/i, role: 'Data Scientist' },
     { pattern: /data\s+analyst/i, role: 'Data Analyst' },
     { pattern: /vp\s+(of\s+)?engineering/i, role: 'VP Engineering' },
