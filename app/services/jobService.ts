@@ -99,7 +99,7 @@ export class JobService {
     }),
   ];
 
-  async fetchJobs(): Promise<Job[]> {
+  async fetchJobs(temperature?: number): Promise<Job[]> {
     // Simulate API delay
     await new Promise(resolve => setTimeout(resolve, 500));
     
