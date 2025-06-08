@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { Job } from '../types/Job';
+import { Job } from '@/types';
 
 interface JobCardProps {
   job: Job;

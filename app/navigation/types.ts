@@ -1,6 +1,8 @@
+import { Job } from '@/types';
+
 export type RootStackParamList = {
   Main: undefined;
-  JobDetails: { job: any };
+  JobDetails: { job: Job };
   ExportResume: undefined;
 };
 

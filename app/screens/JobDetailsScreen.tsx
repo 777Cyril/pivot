@@ -1,10 +1,11 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Linking } from 'react-native';
 import { useRoute } from '@react-navigation/native';
+import { Job } from '@/types';
 
 export const JobDetailsScreen = () => {
   const route = useRoute();
-  const { job } = route.params as { job: any };
+  const { job } = route.params as { job: Job };
 
   const openApplicationUrl = () => {
     if (job.applicationUrl) {

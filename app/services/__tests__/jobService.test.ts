@@ -1,5 +1,5 @@
 import { JobService } from '../jobService';
-import { Job } from '../../types/Job';
+import { Job } from '@/types';
 
 describe('JobService', () => {
   let jobService: JobService;
@@ -67,20 +67,20 @@ describe('JobService', () => {
   describe('filterJobsByExperienceLevel', () => {
     it('should filter jobs by experience level', async () => {
       const allJobs = await jobService.fetchJobs();
-      const entryJobs = jobService.filterJobsByExperienceLevel(allJobs, 'entry');
+      const entryJobs = jobService.filterJobsByExperienceLevel(allJobs, 'Entry');
       
       expect(entryJobs.length).toBeGreaterThan(0);
       entryJobs.forEach(job => {
-        expect(job.experienceLevel).toBe('entry');
+        expect(job.experienceLevel).toBe('Entry');
       });
     });
 
     it('should handle multiple experience levels', async () => {
       const allJobs = await jobService.fetchJobs();
-      const juniorJobs = jobService.filterJobsByExperienceLevel(allJobs, ['entry', 'mid']);
+      const juniorJobs = jobService.filterJobsByExperienceLevel(allJobs, ['Entry', 'Mid']);
       
       juniorJobs.forEach(job => {
-        expect(['entry', 'mid']).toContain(job.experienceLevel);
+        expect(['Entry', 'Mid']).toContain(job.experienceLevel);
       });
     });
   });

@@ -3,16 +3,27 @@ export interface Job {
   company: string;
   title: string;
   location: string;
-  salary: string;
   description: string;
   requirements: string[];
+  /** Optional salary range */
+  salary?: string;
+  /** Optional benefits offered by the job */
   benefits?: string[];
-  postedDate: string;
+  /** Date the job was posted */
+  postedDate: Date;
+  /** Public job posting URL */
   url: string;
-  logo?: string;
+  /** URL used for the actual application step */
+  applicationUrl?: string;
+  /** Company logo */
+  logoUrl?: string;
   isRemote: boolean;
   employmentType: 'Full-time' | 'Part-time' | 'Contract' | 'Internship';
   experienceLevel: 'Entry' | 'Mid' | 'Senior' | 'Lead';
+  /** Platform the job came from */
+  platform?: 'greenhouse' | 'lever' | 'ashby' | 'linkedin' | 'indeed' | 'other';
+  /** Whether the job can be auto applied to */
+  canAutoApply?: boolean;
   similarity?: number;
 }
 

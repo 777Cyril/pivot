@@ -11,7 +11,8 @@ import {
 import { useNavigation, NavigationProp } from '@react-navigation/native';
 import { RootStackParamList } from '../navigation/types';
 import { applicationService } from '../services/applicationService';
-import { Application, ApplicationStatus } from '../types/Application';
+import { ApplicationStatus } from '@/types';
+import { Application } from '../types/Application';
 
 type FilterType = 'all' | ApplicationStatus;
 

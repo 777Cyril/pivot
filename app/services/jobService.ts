@@ -1,4 +1,4 @@
-import { Job } from '../types/Job';
+import { Job } from '@/types';
 import { createMockJob } from '../utils/jobUtils';
 
 export class JobService {
@@ -11,7 +11,7 @@ export class JobService {
       location: 'New York, NY',
       salary: '$150k - $180k',
       isRemote: false,
-      experienceLevel: 'senior',
+      experienceLevel: 'Senior',
       platform: 'greenhouse',
       canAutoApply: true,
     }),
@@ -22,7 +22,7 @@ export class JobService {
       location: 'Remote',
       salary: '$120k - $140k',
       isRemote: true,
-      experienceLevel: 'mid',
+      experienceLevel: 'Mid',
       platform: 'lever',
       canAutoApply: true,
     }),
@@ -32,7 +32,7 @@ export class JobService {
       company: 'Digital Agency',
       location: 'San Francisco, CA',
       salary: '$80k - $100k',
-      experienceLevel: 'entry',
+      experienceLevel: 'Entry',
       platform: 'ashby',
       canAutoApply: true,
     }),
@@ -42,8 +42,8 @@ export class JobService {
       company: 'Enterprise Co',
       location: 'Chicago, IL',
       salary: '$110k - $130k',
-      experienceLevel: 'mid',
-      employmentType: 'full-time',
+      experienceLevel: 'Mid',
+      employmentType: 'Full-time',
     }),
     createMockJob({
       id: '5',
@@ -51,8 +51,8 @@ export class JobService {
       company: 'Consulting Firm',
       location: 'Remote',
       isRemote: true,
-      experienceLevel: 'senior',
-      employmentType: 'contract',
+      experienceLevel: 'Senior',
+      employmentType: 'Contract',
     }),
     createMockJob({
       id: '6',
@@ -60,8 +60,8 @@ export class JobService {
       company: 'Big Tech Co',
       location: 'Seattle, WA',
       salary: '$25/hour',
-      experienceLevel: 'entry',
-      employmentType: 'internship',
+      experienceLevel: 'Entry',
+      employmentType: 'Internship',
     }),
     createMockJob({
       id: '7',
@@ -69,7 +69,7 @@ export class JobService {
       company: 'FinTech Startup',
       location: 'New York, NY',
       salary: '$180k - $220k',
-      experienceLevel: 'lead',
+      experienceLevel: 'Lead',
       platform: 'linkedin',
     }),
     createMockJob({
@@ -77,7 +77,7 @@ export class JobService {
       title: 'React Developer',
       company: 'Healthcare Tech',
       location: 'Boston, MA',
-      experienceLevel: 'mid',
+      experienceLevel: 'Mid',
       platform: 'indeed',
     }),
     createMockJob({
@@ -87,15 +87,15 @@ export class JobService {
       location: 'Remote',
       isRemote: true,
       salary: '$160k - $190k',
-      experienceLevel: 'senior',
+      experienceLevel: 'Senior',
     }),
     createMockJob({
       id: '10',
       title: 'React Native Developer',
       company: 'Media Company',
       location: 'Los Angeles, CA',
-      experienceLevel: 'mid',
-      employmentType: 'full-time',
+      experienceLevel: 'Mid',
+      employmentType: 'Full-time',
     }),
   ];
 

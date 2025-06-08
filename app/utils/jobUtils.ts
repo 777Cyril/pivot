@@ -1,4 +1,4 @@
-import { Job } from '../types/Job';
+import { Job } from '@/types';
 
 export function createMockJob(overrides?: Partial<Job>): Job {
   return {
@@ -9,10 +9,11 @@ export function createMockJob(overrides?: Partial<Job>): Job {
     description: 'We are looking for a talented developer...',
     requirements: ['React Native', 'TypeScript', 'Jest'],
     postedDate: new Date(),
+    url: 'https://example.com/job',
     applicationUrl: 'https://example.com/apply',
     isRemote: false,
-    employmentType: 'full-time',
-    experienceLevel: 'mid',
+    employmentType: 'Full-time',
+    experienceLevel: 'Mid',
     ...overrides,
   };
 }

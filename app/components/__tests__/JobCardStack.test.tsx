@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react-native';
 import { JobCardStack } from '../JobCardStack';
 import { createMockJob } from '../../utils/jobUtils';
-import { Job } from '../../types/Job';
+import { Job } from '@/types';
 
 // Mock the SwipeableCard component to simplify testing
 jest.mock('../SwipeableCard', () => ({
