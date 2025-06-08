@@ -4,15 +4,19 @@
   "version": "1.0.0",
   "scripts": {
     "start": "expo start",
-    "reset-project": "node ./scripts/reset-project.js",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "lint": "expo lint",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "test:temperature": "jest __tests__/components/TemperatureSlider.test.tsx __tests__/services/temperatureMatching.test.ts"
+    "test:temperature": "jest __tests__/components/TemperatureSlider.test.tsx __tests__/services/temperatureMatching.test.ts",
+    "test:vectors": "jest __tests__/services/vectorOperations.test.ts __tests__/services/skillExtraction.test.ts __tests__/services/careerMatchingService.test.ts --coverage",
+    "test:vector:watch": "jest __tests__/services/vector*.test.ts __tests__/services/skill*.test.ts __tests__/services/career*.test.ts --watch",
+    "test:all": "jest --coverage --verbose",
+    "lint": "eslint . --ext .ts,.tsx",
+    "format": "prettier --write \"**/*.{ts,tsx,json}\"",
+    "reset-project": "node ./scripts/reset-project.js"
   },
   "dependencies": {
     "@expo/vector-icons": "^14.1.0",
