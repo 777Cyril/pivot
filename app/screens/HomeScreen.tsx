@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, ActivityIndicator, ScrollView } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { Ionicons } from '@expo/vector-icons';
-import { JobCardStack } from '../components/JobCardStack';
 import TemperatureSlider from '@/components/TemperatureSlider';
 import { Job } from '@/types';
-import { jobService } from '../services/jobService';
+import { Ionicons } from '@expo/vector-icons';
+import React, { useEffect, useState } from 'react';
+import { ActivityIndicator, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { JobCardStack } from '../components/JobCardStack';
 import { applicationService } from '../services/applicationService';
+import { jobService } from '../services/jobService';
 
 export const HomeScreen: React.FC = () => {
   const [allJobs, setAllJobs] = useState<Job[]>([]);
